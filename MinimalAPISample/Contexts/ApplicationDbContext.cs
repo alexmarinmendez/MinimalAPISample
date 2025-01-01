@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MinimalAPISample.Entities;
 
 namespace MinimalAPISample.Contexts
 {
@@ -7,5 +8,7 @@ namespace MinimalAPISample.Contexts
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Person> People { get; set; }
     }
 }
