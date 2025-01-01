@@ -24,6 +24,9 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 });
 
+var message = builder.Configuration.GetValue<string>("message");
+app.MapGet("/message", () => message);
+
 app.Run();
 
 internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
