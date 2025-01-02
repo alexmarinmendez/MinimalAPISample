@@ -4,6 +4,9 @@
 GET {{MinimalAPISample_HostAddress}}/weatherforecast/
 Accept: application/json
 
+### GET /people
+GET {{MinimalAPISample_HostAddress}}/people
+
 ### POST /people
 POST {{MinimalAPISample_HostAddress}}/people
 Content-Type: application/json
