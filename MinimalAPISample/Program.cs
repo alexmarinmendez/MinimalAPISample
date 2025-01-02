@@ -7,10 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("name=defaultConnection"));
+builder.Services.AddOutputCache();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseOutputCache();
 
 var summaries = new[]
 {
