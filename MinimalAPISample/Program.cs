@@ -69,6 +69,16 @@ app.MapPut("/people/{id:int}", async Task<Results<BadRequest<string>, NotFound, 
     return TypedResults.NoContent();
 });
 
+app.MapDelete("/people/{id:int}", async Task<Results<NotFound, NoContent>> (int id, ApplicationDbContext context) =>
+{
+    var deletedRecords = await context.People.Where(p => p.Id == id).ExecuteDeleteAsync();
+    if (deletedRecords == 0)
+    {
+        return TypedResults.NotFound();
+    }
+    return TypedResults.NoContent();
+});
+
 var message = builder.Configuration.GetValue<string>("message");
 app.MapGet("/message", () => message);
 

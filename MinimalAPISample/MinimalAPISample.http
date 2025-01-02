@@ -29,6 +29,11 @@ Content-Type: application/json
   "Name": "Dina Boluarte"
 }
 
+### DELETE /people/{id}
+DELETE {{MinimalAPISample_HostAddress}}/people/2
+Content-Type: application/json
+
+
 ### Message Example 
 GET {{MinimalAPISample_HostAddress}}/message
 Accept: application/json
