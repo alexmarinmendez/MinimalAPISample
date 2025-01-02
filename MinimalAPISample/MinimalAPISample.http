@@ -8,6 +8,10 @@ Accept: application/json
 GET {{MinimalAPISample_HostAddress}}/people
 Accept: application/json
 
+### GET /people/{id}
+GET {{MinimalAPISample_HostAddress}}/people/2
+Accept: application/json
+
 ### POST /people
 POST {{MinimalAPISample_HostAddress}}/people
 Content-Type: application/json

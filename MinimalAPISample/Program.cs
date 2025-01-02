@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using MinimalAPISample.Contexts;
 using MinimalAPISample.Entities;
@@ -33,6 +34,16 @@ app.MapGet("/people", async (ApplicationDbContext context) =>
 {
     var people = await context.People.ToListAsync();
     return people;
+});
+
+app.MapGet("/people/{id:int}", async Task<Results<NotFound, Ok<Person>>> (int id, ApplicationDbContext context) =>
+{
+    var person = await context.People.SingleOrDefaultAsync(p => p.Id == id);
+    if (person is null)
+    {
+        return TypedResults.NotFound();
+    }
+    return TypedResults.Ok(person);
 });
 
 app.MapPost("/people", async (Person person, ApplicationDbContext context) =>
