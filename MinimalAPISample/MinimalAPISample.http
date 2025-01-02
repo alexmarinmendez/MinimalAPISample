@@ -20,6 +20,15 @@ Content-Type: application/json
   "Name": "Wayki"
 }
 
+### PUT /people/{id}
+PUT {{MinimalAPISample_HostAddress}}/people/2
+Content-Type: application/json
+
+{
+  "Id": 2,
+  "Name": "Dina Boluarte"
+}
+
 ### Message Example 
 GET {{MinimalAPISample_HostAddress}}/message
 Accept: application/json

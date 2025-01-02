@@ -53,6 +53,22 @@ app.MapPost("/people", async (Person person, ApplicationDbContext context) =>
     return TypedResults.CreatedAtRoute(person, "GetPerson", new { id = person.Id });
 });
 
+app.MapPut("/people/{id:int}", async Task<Results<BadRequest<string>, NotFound, NoContent>> (int id, Person person, ApplicationDbContext context) =>
+{
+    if (id != person.Id)
+    {
+        return TypedResults.BadRequest("Id's are not the same!");
+    }
+    var exists = await context.People.AnyAsync(p => p.Id == id);
+    if (!exists)
+    {
+        return TypedResults.NotFound();
+    }
+    context.Update(person);
+    await context.SaveChangesAsync();
+    return TypedResults.NoContent();
+});
+
 var message = builder.Configuration.GetValue<string>("message");
 app.MapGet("/message", () => message);
 
