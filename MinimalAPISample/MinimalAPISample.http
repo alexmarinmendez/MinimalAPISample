@@ -17,7 +17,7 @@ POST {{MinimalAPISample_HostAddress}}/people
 Content-Type: application/json
 
 {
-  "Name": "Dina"
+  "Name": "Wayki"
 }
 
 ### Message Example 

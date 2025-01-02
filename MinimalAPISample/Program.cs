@@ -44,13 +44,13 @@ app.MapGet("/people/{id:int}", async Task<Results<NotFound, Ok<Person>>> (int id
         return TypedResults.NotFound();
     }
     return TypedResults.Ok(person);
-});
+}).WithName("GetPerson");
 
 app.MapPost("/people", async (Person person, ApplicationDbContext context) =>
 {
     context.Add(person);
     await context.SaveChangesAsync();
-    return TypedResults.Ok();
+    return TypedResults.CreatedAtRoute(person, "GetPerson", new { id = person.Id });
 });
 
 var message = builder.Configuration.GetValue<string>("message");
