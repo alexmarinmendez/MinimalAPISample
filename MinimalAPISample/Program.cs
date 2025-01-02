@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using MinimalAPISample.Contexts;
 using MinimalAPISample.Entities;
@@ -36,7 +37,7 @@ app.MapGet("/people", async (ApplicationDbContext context) =>
 {
     var people = await context.People.ToListAsync();
     return people;
-}).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(15)));
+}).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("people-get"));
 
 app.MapGet("/people/{id:int}", async Task<Results<NotFound, Ok<Person>>> (int id, ApplicationDbContext context) =>
 {
@@ -48,10 +49,11 @@ app.MapGet("/people/{id:int}", async Task<Results<NotFound, Ok<Person>>> (int id
     return TypedResults.Ok(person);
 }).WithName("GetPerson");
 
-app.MapPost("/people", async (Person person, ApplicationDbContext context) =>
+app.MapPost("/people", async (Person person, ApplicationDbContext context, IOutputCacheStore outputCacheStore) =>
 {
     context.Add(person);
     await context.SaveChangesAsync();
+    await outputCacheStore.EvictByTagAsync("people-get", default);
     return TypedResults.CreatedAtRoute(person, "GetPerson", new { id = person.Id });
 });
 
