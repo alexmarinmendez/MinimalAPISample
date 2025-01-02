@@ -29,6 +29,12 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 });
 
+app.MapGet("/people", async (ApplicationDbContext context) =>
+{
+    var people = await context.People.ToListAsync();
+    return people;
+});
+
 app.MapPost("/people", async (Person person, ApplicationDbContext context) =>
 {
     context.Add(person);

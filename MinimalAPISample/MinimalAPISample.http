@@ -4,6 +4,14 @@
 GET {{MinimalAPISample_HostAddress}}/weatherforecast/
 Accept: application/json
 
+### POST /people
+POST {{MinimalAPISample_HostAddress}}/people
+Content-Type: application/json
+
+{
+  "Name": "Dina"
+}
+
 ### Message Example 
 GET {{MinimalAPISample_HostAddress}}/message
 Accept: application/json
