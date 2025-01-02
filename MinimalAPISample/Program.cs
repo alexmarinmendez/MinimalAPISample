@@ -36,7 +36,7 @@ app.MapGet("/people", async (ApplicationDbContext context) =>
 {
     var people = await context.People.ToListAsync();
     return people;
-});
+}).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(15)));
 
 app.MapGet("/people/{id:int}", async Task<Results<NotFound, Ok<Person>>> (int id, ApplicationDbContext context) =>
 {
