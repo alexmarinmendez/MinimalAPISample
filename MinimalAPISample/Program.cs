@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MinimalAPISample.Contexts;
+using MinimalAPISample.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,13 @@ app.MapGet("/weatherforecast", () =>
         ))
         .ToArray();
     return forecast;
+});
+
+app.MapPost("/people", async (Person person, ApplicationDbContext context) =>
+{
+    context.Add(person);
+    await context.SaveChangesAsync();
+    return TypedResults.Ok();
 });
 
 var message = builder.Configuration.GetValue<string>("message");
