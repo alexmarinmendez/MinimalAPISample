@@ -57,7 +57,7 @@ app.MapPost("/people", async (Person person, ApplicationDbContext context, IOutp
     return TypedResults.CreatedAtRoute(person, "GetPerson", new { id = person.Id });
 });
 
-app.MapPut("/people/{id:int}", async Task<Results<BadRequest<string>, NotFound, NoContent>> (int id, Person person, ApplicationDbContext context) =>
+app.MapPut("/people/{id:int}", async Task<Results<BadRequest<string>, NotFound, NoContent>> (int id, Person person, ApplicationDbContext context, IOutputCacheStore outputCacheStore) =>
 {
     if (id != person.Id)
     {
@@ -70,6 +70,7 @@ app.MapPut("/people/{id:int}", async Task<Results<BadRequest<string>, NotFound, 
     }
     context.Update(person);
     await context.SaveChangesAsync();
+    await outputCacheStore.EvictByTagAsync("people-get", default);
     return TypedResults.NoContent();
 });
 
